@@ -1,104 +1,22 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rune Duel — Master Arena</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="board.css" />
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Rune Duel — Fixed Board</title>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="board.css">
 </head>
 <body>
-  <div class="stars"></div>
-  <div class="nebula nebula-one"></div>
-  <div class="nebula nebula-two"></div>
-  <div class="arena-lights"></div>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand"><span class="brand-mark">✦</span><div><b>RUNE DUEL</b><small>STELLAR CARD ARENA</small></div></div>
-      <div class="match-title"><span>RANKED DUEL</span><strong>SEASON 01 · THE ASTRAL AWAKENING</strong></div>
-      <div class="top-actions"><button id="newGameBtn" class="ghost-btn">↻ Trận mới</button><button id="soundBtn" class="icon-btn">♫</button></div>
-    </header>
-
-    <main class="game-layout">
-      <section class="duel-panel">
-        <div class="opponent-row player-strip">
-          <div class="profile"><div class="avatar enemy">☠</div><div><strong>ORACLE AI</strong><span class="status"><i></i> Đang chiến đấu</span></div></div>
-          <div class="life-wrap"><span>LP</span><div class="life-bar"><div id="enemyLifeBar" class="life enemy-life"></div></div><strong id="enemyLP">4000</strong></div>
-          <div class="badge">RANK <b>VIII</b></div>
-        </div>
-
-        <div class="arena board-arena">
-          <div class="phase-track"><span class="complete">DRAW</span><i></i><span class="active">MAIN PHASE</span><i></i><span>BATTLE</span><i></i><span>END</span></div>
-          <div class="turn-banner" id="turnBanner">LƯỢT CỦA BẠN · MAIN PHASE</div>
-
-          <div class="duel-board" aria-label="Sân đấu 28 ô và 2 ô triệu hồi đặc biệt">
-            <div class="board-side enemy-board">
-              <div class="zone-row utility-row">
-                <div class="zone utility" id="enemyBanished"><b>◈</b><small>LOẠI BỎ</small></div>
-                <div class="zone utility" id="enemyGrave"><b>☠</b><small>MỘ BÀI</small></div>
-                <div class="zone utility" id="enemyExtra"><b>✦</b><small>DUNG HỢP</small></div>
-                <div class="zone utility" id="enemyDeck"><b>▣</b><small>BỘ BÀI</small></div>
-              </div>
-
-              <div class="zone-label">KHU VỰC PHÉP / BẪY</div>
-              <div id="enemySpellSlots" class="zone-row spell-row"></div>
-
-              <div class="zone-label">KHU VỰC QUÁI THÚ</div>
-              <div id="enemyMonsterSlots" class="zone-row monster-row"></div>
-            </div>
-
-            <div class="special-row">
-              <span class="special-caption">SPECIAL SUMMON ZONE · CHỈ QUÁI ĐẶC BIỆT</span>
-              <div id="specialLeft" class="zone special-zone"><b>✧</b><small>EXTRA</small></div>
-              <div id="specialRight" class="zone special-zone"><b>✧</b><small>EXTRA</small></div>
-            </div>
-
-            <div class="board-side player-board">
-              <div class="zone-label">KHU VỰC QUÁI THÚ</div>
-              <div id="playerMonsterSlots" class="zone-row monster-row"></div>
-
-              <div class="zone-label">KHU VỰC PHÉP / BẪY</div>
-              <div id="playerSpellSlots" class="zone-row spell-row"></div>
-
-              <div class="zone-row utility-row">
-                <div class="zone utility" id="playerDeck"><b>▣</b><small>BỘ BÀI</small></div>
-                <div class="zone utility" id="playerExtra"><b>✦</b><small>DUNG HỢP</small></div>
-                <div class="zone utility" id="playerGrave"><b>☠</b><small>MỘ BÀI</small></div>
-                <div class="zone utility" id="playerBanished"><b>◈</b><small>LOẠI BỎ</small></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="arena-hint" id="hint">Chọn bài quái trên tay, sau đó chọn một ô quái thú.</div>
-        </div>
-
-        <div class="player-row player-strip">
-          <div class="profile"><div class="avatar hero">✦</div><div><strong>DUELIST</strong><span class="status"><i></i> Online</span></div></div>
-          <div class="life-wrap"><span>LP</span><div class="life-bar"><div id="playerLifeBar" class="life player-life"></div></div><strong id="playerLP">4000</strong></div>
-          <div class="badge blue">RANK <b>IX</b></div>
-        </div>
-
-        <div class="hand-area">
-          <div class="hand-label">HAND <b id="handCount">0</b></div>
-          <div id="hand" class="hand"></div>
-          <button id="endTurnBtn" class="end-turn">Kết thúc lượt <span>→</span></button>
-        </div>
-      </section>
-
-      <aside class="side-panel">
-        <div class="side-tabs"><button class="active">NHẬT KÝ</button><button>BỘ BÀI</button></div>
-        <div class="opponent-mini"><span class="mini-orb">◈</span><div><b>Oracle AI</b><small>CONTROL DECK</small></div><strong>LV. 18</strong></div>
-        <div id="log" class="battle-log"></div>
-        <div class="deck-card"><div class="deck-icon">✧</div><div><strong>BỘ BÀI RUNE</strong><span id="deckCount">12 lá còn lại</span></div><div class="deck-stack"></div></div>
-        <div class="tip"><span>💡</span><p><b>MẸO CHIẾN ĐẤU</b><br>Triệu hồi quái thú vào 5 ô phía dưới. Hai ô giữa chỉ dành cho quái thú đặc biệt.</p></div>
-      </aside>
-    </main>
-  </div>
-
-  <div id="toast" class="toast"></div>
-  <script src="game.js"></script>
-</body>
-</html>
+<div class="stars"></div><div class="nebula nebula-one"></div><div class="nebula nebula-two"></div><div class="arena-lights"></div>
+<div class="app-shell">
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><div><b>RUNE DUEL</b><small>FIXED CARD ARENA</small></div></div><div class="match-title"><span>RANKED DUEL</span><strong>SEASON 01 · THE ASTRAL AWAKENING</strong></div><div class="top-actions"><button id="newGameBtn" class="ghost-btn">↻ Trận mới</button><button id="soundBtn" class="icon-btn">♫</button></div></header>
+<main class="game-layout"><section class="duel-panel">
+<div class="opponent-row player-strip"><div class="profile"><div class="avatar enemy">☠</div><div><strong>ORACLE AI</strong><span class="status"><i></i> Đang chiến đấu</span></div></div><div class="life-wrap"><span>LP</span><div class="life-bar"><div id="enemyLifeBar" class="life enemy-life"></div></div><strong id="enemyLP">4000</strong></div><div class="badge">RANK <b>VIII</b></div></div>
+<div class="arena board-arena"><div class="phase-track"><span class="complete">DRAW</span><i></i><span class="active">MAIN PHASE</span><i></i><span>BATTLE</span><i></i><span>END</span></div><div id="turnBanner" class="turn-banner">LƯỢT CỦA BẠN · MAIN PHASE</div>
+<div class="duel-board">
+<div class="board-side enemy-board"><div class="zone-row utility-row"><div class="zone utility"><b>◈</b><small>LOẠI BỎ</small></div><div class="zone utility"><b>☠</b><small>MỘ BÀI</small></div><div class="zone utility"><b>✦</b><small>DUNG HỢP</small></div><div class="zone utility"><b>▣</b><small>BỘ BÀI</small></div></div><div class="zone-label">KHU VỰC PHÉP / BẪY</div><div id="enemySpellSlots" class="zone-row spell-row"></div><div class="zone-label">KHU VỰC QUÁI THÚ</div><div id="enemyMonsterSlots" class="zone-row monster-row"></div></div>
+<div class="special-row"><span class="special-caption">SPECIAL SUMMON ZONE · CHỈ QUÁI ĐẶC BIỆT</span><div class="zone special-zone"><b>✧</b><small>EXTRA</small></div><div class="zone special-zone"><b>✧</b><small>EXTRA</small></div></div>
+<div class="board-side player-board"><div class="zone-label">KHU VỰC QUÁI THÚ</div><div id="playerMonsterSlots" class="zone-row monster-row"></div><div class="zone-label">KHU VỰC PHÉP / BẪY</div><div id="playerSpellSlots" class="zone-row spell-row"></div><div class="zone-row utility-row"><div class="zone utility"><b>▣</b><small>BỘ BÀI</small></div><div class="zone utility"><b>✦</b><small>DUNG HỢP</small></div><div class="zone utility"><b>☠</b><small>MỘ BÀI</small></div><div class="zone utility"><b>◈</b><small>LOẠI BỎ</small></div></div></div>
+</div><div id="hint" class="arena-hint">Chọn bài quái trên tay, sau đó chọn một ô quái thú.</div></div>
+<div class="player-row player-strip"><div class="profile"><div class="avatar hero">✦</div><div><strong>DUELIST</strong><span class="status"><i></i> Online</span></div></div><div class="life-wrap"><span>LP</span><div class="life-bar"><div id="playerLifeBar" class="life player-life"></div></div><strong id="playerLP">4000</strong></div><div class="badge blue">RANK <b>IX</b></div></div>
+<div class="hand-area"><div class="hand-label">HAND <b id="handCount">0</b></div><div id="hand" class="hand"></div><button id="endTurnBtn" class="end-turn">Kết thúc lượt <span>→</span></button></div>
+</section><aside class="side-panel"><div class="side-tabs"><button class="active">NHẬT KÝ</button><button>BỘ BÀI</button></div><div id="log" class="battle-log"></div><div class="deck-card"><div class="deck-icon">✧</div><div><strong>BỘ BÀI RUNE</strong><span id="deckCount">12 lá còn lại</span></div><div class="deck-stack"></div></div><div class="tip"><span>💡</span><p><b>SỐ Ô CỐ ĐỊNH</b><br>Mỗi bên luôn có đúng 5 ô quái thú và 5 ô phép/bẫy. Bài chỉ thay đổi nội dung ô.</p></div></aside></main></div><div id="toast" class="toast"></div><script src="game.js"></script>
+</body></html>
