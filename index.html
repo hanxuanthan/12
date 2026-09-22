@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rune Duel — Card Arena</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span><div><b>RUNE DUEL</b><small>Card Arena</small></div></div>
+      <div class="top-actions"><button id="newGameBtn" class="ghost-btn">↻ Trận mới</button><button id="soundBtn" class="icon-btn" aria-label="Âm thanh">♫</button></div>
+    </header>
+    <main class="game-layout">
+      <section class="duel-panel">
+        <div class="opponent-row">
+          <div class="profile"><div class="avatar enemy">☠</div><div><strong>Oracle AI</strong><span class="status"><i></i> Đang chiến đấu</span></div></div>
+          <div class="life-wrap"><span>LP</span><div class="life-bar"><div id="enemyLifeBar" class="life enemy-life"></div></div><strong id="enemyLP">4000</strong></div>
+        </div>
+        <div class="arena">
+          <div class="turn-banner" id="turnBanner">LƯỢT CỦA BẠN · MAIN PHASE</div>
+          <div class="field enemy-field"><div id="enemySlots" class="slots"></div></div>
+          <div class="divider"><span>VS</span></div>
+          <div class="field player-field"><div id="playerSlots" class="slots"></div></div>
+          <div class="arena-hint" id="hint">Chọn một lá trên tay, sau đó triệu hồi vào ô trống.</div>
+        </div>
+        <div class="player-row">
+          <div class="profile"><div class="avatar hero">✦</div><div><strong>Bạn</strong><span class="status"><i></i> Online</span></div></div>
+          <div class="life-wrap"><span>LP</span><div class="life-bar"><div id="playerLifeBar" class="life player-life"></div></div><strong id="playerLP">4000</strong></div>
+        </div>
+        <div class="hand-area"><div id="hand" class="hand"></div><button id="endTurnBtn" class="end-turn">Kết thúc lượt <span>→</span></button></div>
+      </section>
+      <aside class="side-panel">
+        <div class="side-tabs"><button class="active">NHẬT KÝ</button><button>BỘ BÀI</button></div>
+        <div id="log" class="battle-log"></div>
+        <div class="deck-card"><div class="deck-icon">✧</div><div><strong>Bộ bài Rune</strong><span id="deckCount">8 lá còn lại</span></div><div class="deck-stack"></div></div>
+        <div class="tip"><span>💡</span><p><b>Mẹo nhanh</b><br>Triệu hồi quái thú mạnh rồi tấn công đối thủ. Mỗi lượt bạn được rút một lá.</p></div>
+      </aside>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="game.js"></script>
+</body>
+</html>

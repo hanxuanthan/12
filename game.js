@@ -1,0 +1,30 @@
+const $ = (s) => document.querySelector(s);
+const icons = {"Astral Fox":"🦊","Moss Golem":"🌿","Volt Drake":"🐉","Moon Sage":"🌙","Ember Knight":"🔥","Crystal Wisp":"💎","Tidal Serpent":"🌊","Dawn Sprite":"✨"};
+const originalDeck = [
+  {name:'Astral Fox',type:'monster',atk:900,def:700,rarity:'★',desc:'Linh thú tinh tú'},
+  {name:'Moss Golem',type:'monster',atk:1200,def:1500,rarity:'★★',desc:'Người đá rêu'},
+  {name:'Volt Drake',type:'monster',atk:1800,def:1100,rarity:'★★★',desc:'Long thú sấm sét'},
+  {name:'Moon Sage',type:'monster',atk:1400,def:1700,rarity:'★★',desc:'Hiền giả mặt trăng'},
+  {name:'Ember Knight',type:'monster',atk:1600,def:1000,rarity:'★★',desc:'Kỵ sĩ tro hồng'},
+  {name:'Crystal Wisp',type:'monster',atk:700,def:500,rarity:'★',desc:'Tinh linh pha lê'},
+  {name:'Tidal Serpent',type:'monster',atk:2000,def:1200,rarity:'★★★',desc:'Xà thần thủy triều'},
+  {name:'Dawn Sprite',type:'monster',atk:800,def:900,rarity:'★',desc:'Tinh linh bình minh'}
+];
+let state;
+function freshState(){ return {playerLP:4000,enemyLP:4000,deck:[...originalDeck],hand:[],playerField:[],enemyField:[{...originalDeck[2],faceDown:true}],selected:null,turn:1,over:false}; }
+function cardHTML(c, field=false){ const stats = c.type==='monster' ? `<div class="stats"><span>ATK ${c.atk}</span><span>DEF ${c.def}</span></div>` : ''; return `<div class="card ${c.type} ${field?'field-card':'hand-card'} ${c.faceDown?'face-down':''}" data-name="${c.name}"><div class="card-art">${c.faceDown?'':icons[c.name]}</div>${c.faceDown?'':`<div class="card-name">${c.name}</div>${stats}`}</div>`; }
+function log(text, cls=''){ const el=document.createElement('div');el.className=`log-line ${cls}`;el.innerHTML=text;$('#log').prepend(el); }
+function drawCard(){ if(!state.deck.length){log('<b>Bộ bài đã hết!</b>','damage');return} state.hand.push(state.deck.shift()); }
+function render(){
+  $('#playerLP').textContent=state.playerLP;$('#enemyLP').textContent=state.enemyLP;$('#playerLifeBar').style.width=`${Math.max(0,state.playerLP/40)}%`;$('#enemyLifeBar').style.width=`${Math.max(0,state.enemyLP/40)}%`;$('#deckCount').textContent=`${state.deck.length} lá còn lại`;
+  $('#hand').innerHTML=state.hand.map((c,i)=>cardHTML(c)).join('');
+  $('#playerSlots').innerHTML=Array.from({length:5},(_,i)=>`<div class="slot ${state.playerField[i]?'occupied':'empty'}" data-slot="${i}">${state.playerField[i]?cardHTML(state.playerField[i],true):''}</div>`).join('');
+  $('#enemySlots').innerHTML=Array.from({length:5},(_,i)=>`<div class="slot ${state.enemyField[i]?'occupied':'empty'}">${state.enemyField[i]?cardHTML(state.enemyField[i],true):''}</div>`).join('');
+  document.querySelectorAll('#hand .card').forEach((el,i)=>el.onclick=()=>selectCard(i));document.querySelectorAll('#playerSlots .slot').forEach(el=>el.onclick=()=>summon(Number(el.dataset.slot)));
+}
+function selectCard(i){if(state.over)return;state.selected=state.selected===i?null:i;document.querySelectorAll('#hand .card').forEach((c,n)=>c.classList.toggle('selected',n===state.selected));$('#hint').textContent=state.selected===null?'Chọn một lá trên tay, sau đó triệu hồi vào ô trống.':'Chọn ô trống trên sân để triệu hồi lá bài.';document.querySelectorAll('#playerSlots .empty').forEach(s=>s.classList.toggle('target',state.selected!==null));}
+function summon(slot){if(state.selected===null||state.playerField[slot]||state.over)return;const card=state.hand.splice(state.selected,1)[0];state.playerField[slot]=card;state.selected=null;log(`<b>Bạn</b> triệu hồi ${card.name}.`);$('#hint').textContent='Quái thú đã sẵn sàng. Kết thúc lượt để giao chiến.';render();}
+function enemyTurn(){if(state.over)return;log('<b>Oracle AI</b> đang suy nghĩ...');setTimeout(()=>{const live=state.playerField.filter(Boolean);if(live.length){const target=live[0];const hit=Math.max(0,850-target.atk);state.playerLP-=hit;log(`<b>Oracle AI</b> tấn công, gây <b>${hit}</b> sát thương.`,'damage')}else{state.playerLP-=300;log('<b>Oracle AI</b> tấn công trực tiếp, gây <b>300</b> sát thương.','damage')}state.turn++;drawCard();state.over=state.playerLP<=0||state.enemyLP<=0;if(state.over){log(state.playerLP<=0?'<b>Bạn đã thất bại.</b>':'<b>Bạn chiến thắng!</b>');$('#turnBanner').textContent=state.playerLP<=0?'DEFEAT':'VICTORY'}else{log(`<b>Lượt ${state.turn}</b> bắt đầu. Bạn đã rút một lá.`);$('#turnBanner').textContent=`LƯỢT ${state.turn} CỦA BẠN · MAIN PHASE`}render();},650);}
+function endTurn(){if(state.over)return;const attacker=state.playerField.filter(Boolean)[0];if(attacker){const target=state.enemyField.filter(Boolean)[0];if(target){const damage=Math.max(0,attacker.atk-target.atk);state.enemyLP-=damage;log(`<b>${attacker.name}</b> giao chiến và gây <b>${damage}</b> sát thương.`,damage?'damage':'')}else{state.enemyLP-=attacker.atk;log(`<b>${attacker.name}</b> tấn công trực tiếp! <b>-${attacker.atk}</b> LP.`,'damage')}}else log('Bạn chưa có quái thú trên sân.');if(state.enemyLP<=0){state.over=true;log('<b>Bạn chiến thắng!</b>');$('#turnBanner').textContent='VICTORY';render();return}$('#turnBanner').textContent='LƯỢT ĐỐI THỦ · BATTLE PHASE';render();enemyTurn();}
+function start(){state=freshState();for(let i=0;i<3;i++)drawCard();$('#log').innerHTML='';log('<b>Trận đấu bắt đầu!</b> Rút 3 lá để khởi động.');log('Triệu hồi một quái thú rồi kết thúc lượt để tấn công.');$('#turnBanner').textContent='LƯỢT CỦA BẠN · MAIN PHASE';render();}
+$('#endTurnBtn').onclick=endTurn;$('#newGameBtn').onclick=start;$('#soundBtn').onclick=()=>showToast('Âm thanh đã tắt/bật');function showToast(t){const x=$('#toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1500)}start();
