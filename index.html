@@ -3,39 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rune Duel — Card Arena</title>
+  <title>Rune Duel — Stellar Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="stars"></div><div class="nebula nebula-one"></div><div class="nebula nebula-two"></div>
   <div class="app-shell">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">✦</span><div><b>RUNE DUEL</b><small>Card Arena</small></div></div>
+      <div class="brand"><span class="brand-mark">✦</span><div><b>RUNE DUEL</b><small>STELLAR CARD ARENA</small></div></div>
+      <div class="match-title"><span>RANKED DUEL</span><strong>SEASON 01 · THE ASTRAL AWAKENING</strong></div>
       <div class="top-actions"><button id="newGameBtn" class="ghost-btn">↻ Trận mới</button><button id="soundBtn" class="icon-btn" aria-label="Âm thanh">♫</button></div>
     </header>
     <main class="game-layout">
       <section class="duel-panel">
-        <div class="opponent-row">
-          <div class="profile"><div class="avatar enemy">☠</div><div><strong>Oracle AI</strong><span class="status"><i></i> Đang chiến đấu</span></div></div>
+        <div class="opponent-row player-strip">
+          <div class="profile"><div class="avatar enemy">☠</div><div><strong>ORACLE AI</strong><span class="status"><i></i> Đang chiến đấu</span></div></div>
           <div class="life-wrap"><span>LP</span><div class="life-bar"><div id="enemyLifeBar" class="life enemy-life"></div></div><strong id="enemyLP">4000</strong></div>
+          <div class="badge">RANK <b>VIII</b></div>
         </div>
         <div class="arena">
+          <div class="phase-track"><span class="complete">DRAW</span><i></i><span class="active" id="phaseLabel">MAIN PHASE</span><i></i><span>BATTLE</span><i></i><span>END</span></div>
           <div class="turn-banner" id="turnBanner">LƯỢT CỦA BẠN · MAIN PHASE</div>
           <div class="field enemy-field"><div id="enemySlots" class="slots"></div></div>
+          <div class="center-emblem"><span>✦</span><small>DUEL</small></div>
           <div class="divider"><span>VS</span></div>
           <div class="field player-field"><div id="playerSlots" class="slots"></div></div>
           <div class="arena-hint" id="hint">Chọn một lá trên tay, sau đó triệu hồi vào ô trống.</div>
         </div>
-        <div class="player-row">
-          <div class="profile"><div class="avatar hero">✦</div><div><strong>Bạn</strong><span class="status"><i></i> Online</span></div></div>
+        <div class="player-row player-strip">
+          <div class="profile"><div class="avatar hero">✦</div><div><strong>DUELIST</strong><span class="status"><i></i> Online</span></div></div>
           <div class="life-wrap"><span>LP</span><div class="life-bar"><div id="playerLifeBar" class="life player-life"></div></div><strong id="playerLP">4000</strong></div>
+          <div class="badge blue">RANK <b>IX</b></div>
         </div>
-        <div class="hand-area"><div id="hand" class="hand"></div><button id="endTurnBtn" class="end-turn">Kết thúc lượt <span>→</span></button></div>
+        <div class="hand-area"><div class="hand-label">HAND <b id="handCount">0</b></div><div id="hand" class="hand"></div><button id="endTurnBtn" class="end-turn">Kết thúc lượt <span>→</span></button></div>
       </section>
       <aside class="side-panel">
         <div class="side-tabs"><button class="active">NHẬT KÝ</button><button>BỘ BÀI</button></div>
+        <div class="opponent-mini"><span class="mini-orb">◈</span><div><b>Oracle AI</b><small>CONTROL DECK</small></div><strong>LV. 18</strong></div>
         <div id="log" class="battle-log"></div>
-        <div class="deck-card"><div class="deck-icon">✧</div><div><strong>Bộ bài Rune</strong><span id="deckCount">8 lá còn lại</span></div><div class="deck-stack"></div></div>
-        <div class="tip"><span>💡</span><p><b>Mẹo nhanh</b><br>Triệu hồi quái thú mạnh rồi tấn công đối thủ. Mỗi lượt bạn được rút một lá.</p></div>
+        <div class="deck-card"><div class="deck-icon">✧</div><div><strong>BỘ BÀI RUNE</strong><span id="deckCount">8 lá còn lại</span></div><div class="deck-stack"></div></div>
+        <div class="tip"><span>💡</span><p><b>MẸO CHIẾN ĐẤU</b><br>Triệu hồi quái thú mạnh rồi tấn công đối thủ. Mỗi lượt bạn được rút một lá.</p></div>
       </aside>
     </main>
   </div>
